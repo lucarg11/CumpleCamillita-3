@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Cumpleaños Camillita 🌸</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #fff5f8;
+  font-family: Georgia, serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 480px;
+}
+
+#envelope-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+#envelope {
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: #fff0f4;
+  border: 2px solid #e8a0b0;
+  border-radius: 16px;
+  width: 240px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60px;
+  user-select: none;
+  box-shadow: 0 4px 20px rgba(192,96,122,0.15);
+}
+#envelope:hover { transform: scale(1.06); }
+#envelope:active { transform: scale(0.97); }
+
+.hint { font-size: 15px; color: #b08090; text-align: center; }
+
+#carta-scene {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+#carta {
+  background: #fffaf7;
+  border: 1.5px solid #f0c8d4;
+  border-radius: 16px;
+  padding: 2rem 1.8rem;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(192,96,122,0.10);
+}
+
+.linea {
+  display: block;
+  margin-bottom: 1.1rem;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  font-size: 17px;
+  line-height: 1.8;
+  color: #444;
+}
+.linea.titulo {
+  font-size: 23px;
+  color: #c0607a;
+  font-style: italic;
+  margin-bottom: 1.4rem;
+}
+.linea.firma {
+  font-size: 18px;
+  color: #c0607a;
+  font-style: italic;
+  text-align: right;
+  margin-bottom: 0;
+}
+.show {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+#btn-sorpresa {
+  display: none;
+  margin-top: 0.8rem;
+  padding: 0.8rem 2rem;
+  font-size: 16px;
+  background: #fff0f4;
+  color: #c0607a;
+  border: 1.5px solid #e8a0b0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: Georgia, serif;
+  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 2px 8px rgba(192,96,122,0.10);
+}
+#btn-sorpresa:hover { background: #fddde6; }
+#btn-sorpresa:active { transform: scale(0.97); }
+
+#cake-scene {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.5rem;
+  animation: fadeIn 1s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+.cake-msg { font-size: 22px; color: #c0607a; font-style: italic; text-align: center; }
+.sub { font-size: 15px; color: #b08090; text-align: center; }
+
+canvas#confetti-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 999;
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="envelope-scene">
+    <p class="hint">Camillita, toca el sobre para abrir tu regalo 💌</p>
+    <div id="envelope" onclick="abrirSobre()">💌</div>
+    <p class="hint" style="font-size:13px; margin-top:0.3rem;">— De: Luca</p>
+  </div>
+
+  <div id="carta-scene">
+    <div id="carta">
+      <span class="linea titulo" id="l1">Para Camillita 🌸</span>
+      <span class="linea" id="l2">Esta es una carta especial para una persona muy especial.</span>
+      <span class="linea" id="l3">Es solo para recordarte lo importante que eres para todas las personas a tu alrededor.</span>
+      <span class="linea" id="l4">Y si algún día te sientes triste... espero que veas esta carta</span>
+      <span class="linea" id="l5">y te pueda recordar lo importante que eres para todos tus seres queridos. 💕</span>
+      <span class="linea firma" id="l6">— Luca</span>
+    </div>
+    <button id="btn-sorpresa" onclick="mostrarBizcocho()">Ver tu sorpresa 🎂</button>
+  </div>
+
+  <div id="cake-scene">
+    <p class="cake-msg">¡Feliz cumpleaños, Camillita! 🎉</p>
+    <svg width="200" height="220" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="100" cy="204" rx="72" ry="11" fill="#f9d0dc" opacity="0.5"/>
+      <rect x="24" y="142" width="152" height="56" rx="10" fill="#f4a6b8"/>
+      <rect x="24" y="136" width="152" height="12" rx="5" fill="#fde8ee"/>
+      <rect x="40" y="90" width="120" height="52" rx="10" fill="#f7bfcc"/>
+      <rect x="40" y="84" width="120" height="12" rx="5" fill="#fde8ee"/>
+      <circle cx="68" cy="116" r="5" fill="#c0607a" opacity="0.7"/>
+      <circle cx="100" cy="110" r="5" fill="#c0607a" opacity="0.7"/>
+      <circle cx="132" cy="116" r="5" fill="#c0607a" opacity="0.7"/>
+      <circle cx="55" cy="167" r="5" fill="#a04060" opacity="0.6"/>
+      <circle cx="82" cy="173" r="5" fill="#a04060" opacity="0.6"/>
+      <circle cx="110" cy="173" r="5" fill="#a04060" opacity="0.6"/>
+      <circle cx="138" cy="167" r="5" fill="#a04060" opacity="0.6"/>
+      <rect x="71" y="56" width="8" height="30" rx="3" fill="#ffd166"/>
+      <rect x="96" y="48" width="8" height="38" rx="3" fill="#c0607a"/>
+      <rect x="121" y="56" width="8" height="30" rx="3" fill="#ffd166"/>
+      <ellipse cx="75" cy="53" rx="5" ry="7" fill="#ff9900">
+        <animate attributeName="ry" values="7;9;6;8;7" dur="0.8s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="53;51;54;50;53" dur="0.8s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="100" cy="45" rx="5" ry="7" fill="#ff6b6b">
+        <animate attributeName="ry" values="7;8;5;9;7" dur="0.7s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="45;43;46;42;45" dur="0.7s" repeatCount="indefinite"/>
+      </ellipse>
+      <ellipse cx="125" cy="53" rx="5" ry="7" fill="#ff9900">
+        <animate attributeName="ry" values="7;6;9;7;8" dur="0.9s" repeatCount="indefinite"/>
+        <animate attributeName="cy" values="53;51;55;52;53" dur="0.9s" repeatCount="indefinite"/>
+      </ellipse>
+      <text x="100" y="120" text-anchor="middle" font-family="Georgia, serif" font-size="11" fill="#7a2040" font-weight="bold">Happy B-day</text>
+    </svg>
+    <p class="sub">Pide un deseo y apaga las velas 🕯️✨</p>
+  </div>
+
+</div>
+
+<canvas id="confetti-canvas"></canvas>
+
+<script>
+var paso = 0;
+var lineas = ['l1','l2','l3','l4','l5','l6'];
+
+function abrirSobre() {
+  document.getElementById('envelope-scene').style.display = 'none';
+  document.getElementById('carta-scene').style.display = 'flex';
+  setTimeout(mostrarLinea, 400);
+}
+
+function mostrarLinea() {
+  if (paso < lineas.length) {
+    document.getElementById(lineas[paso]).classList.add('show');
+    paso++;
+    if (paso < lineas.length) {
+      setTimeout(mostrarLinea, 1100);
+    } else {
+      setTimeout(function() {
+        document.getElementById('btn-sorpresa').style.display = 'inline-block';
+      }, 700);
+    }
+  }
+}
+
+function mostrarBizcocho() {
+  document.getElementById('carta-scene').style.display = 'none';
+  var cakeScene = document.getElementById('cake-scene');
+  cakeScene.style.display = 'flex';
+  lanzarConfetti();
+}
+
+function lanzarConfetti() {
+  var canvas = document.getElementById('confetti-canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  var colores = ['#f4a6b8','#ffd166','#c0607a','#fde8ee','#a0d6b4','#b8d4f4','#f7bfcc'];
+  var particulas = [];
+  for (var i = 0; i < 100; i++) {
+    particulas.push({
+      x: Math.random() * canvas.width,
+      y: -10,
+      r: Math.random() * 7 + 3,
+      d: Math.random() * 80 + 20,
+      color: colores[Math.floor(Math.random() * colores.length)],
+      tiltAngle: Math.random() * Math.PI * 2,
+      tiltSpeed: Math.random() * 0.1 + 0.05
+    });
+  }
+  var angle = 0;
+  var frames = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    angle += 0.01;
+    frames++;
+    particulas.forEach(function(p) {
+      p.tiltAngle += p.tiltSpeed;
+      p.y += Math.cos(angle + p.d) + 2.8;
+      p.x += Math.sin(angle) * 1.5;
+      ctx.beginPath();
+      ctx.lineWidth = p.r;
+      ctx.strokeStyle = p.color;
+      ctx.moveTo(p.x + Math.sin(p.tiltAngle) * 10 + p.r / 2, p.y);
+      ctx.lineTo(p.x + Math.sin(p.tiltAngle) * 10, p.y + Math.sin(p.tiltAngle) * 10 + p.r / 2);
+      ctx.stroke();
+    });
+    if (frames < 200) requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  draw();
+}
+</script>
+</body>
+</html>
